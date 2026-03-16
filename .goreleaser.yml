@@ -3,8 +3,10 @@ project_name: refactorkit
 before:
   hooks:
 builds:
-  - env:
-      - CGO_ENABLED=0
+  - main: .
+    binary: refactorkit
+    env:
+      - CGO_ENABLED=1
     goos:
       - linux
       - darwin
@@ -12,8 +14,9 @@ builds:
       - amd64
       - arm64
     ldflags:
-      - -s -w -X github.com/prokizzle/refactorkit/internal/version.Version={{.Version}}
-    main: ./main.go
+      - -s -w
+      - -X github.com/prokizzle/refactorkit/internal/version.Version={{.Version}}
+      - -X main.commit={{.Commit}}
 
 archives:
   - format: tar.gz
@@ -52,6 +55,11 @@ brews:
   - repository:
       owner: prokizzle
       name: homebrew-tap
+    name: refactorkit
+    description: "Transform vibe-coded apps into production-grade software"
+    homepage: "https://refactorkit.dev"
+    install: |
+      bin.install "refactorkit"
 nfpms:
   - maintainer: kujtimiihoxha
     description: terminal based agent that can build anything
