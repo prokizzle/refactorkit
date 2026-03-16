@@ -9,42 +9,42 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 	zone "github.com/lrstanley/bubblezone"
-	"github.com/opencode-ai/opencode/internal/app"
-	"github.com/opencode-ai/opencode/internal/config"
-	"github.com/opencode-ai/opencode/internal/db"
-	"github.com/opencode-ai/opencode/internal/format"
-	"github.com/opencode-ai/opencode/internal/llm/agent"
-	"github.com/opencode-ai/opencode/internal/logging"
-	"github.com/opencode-ai/opencode/internal/pubsub"
-	"github.com/opencode-ai/opencode/internal/tui"
-	"github.com/opencode-ai/opencode/internal/version"
+	"github.com/prokizzle/refactorkit/internal/app"
+	"github.com/prokizzle/refactorkit/internal/config"
+	"github.com/prokizzle/refactorkit/internal/db"
+	"github.com/prokizzle/refactorkit/internal/format"
+	"github.com/prokizzle/refactorkit/internal/llm/agent"
+	"github.com/prokizzle/refactorkit/internal/logging"
+	"github.com/prokizzle/refactorkit/internal/pubsub"
+	"github.com/prokizzle/refactorkit/internal/tui"
+	"github.com/prokizzle/refactorkit/internal/version"
 	"github.com/spf13/cobra"
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "opencode",
-	Short: "Terminal-based AI assistant for software development",
-	Long: `OpenCode is a powerful terminal-based AI assistant that helps with software development tasks.
+	Use:   "refactorkit",
+	Short: "Terminal-based AI assistant for software refactoring and development",
+	Long: `RefactorKit is a powerful terminal-based AI assistant that helps with software refactoring and development tasks.
 It provides an interactive chat interface with AI capabilities, code analysis, and LSP integration
 to assist developers in writing, debugging, and understanding code directly from the terminal.`,
 	Example: `
   # Run in interactive mode
-  opencode
+  refactorkit
 
   # Run with debug logging
-  opencode -d
+  refactorkit -d
 
   # Run with debug logging in a specific directory
-  opencode -d -c /path/to/project
+  refactorkit -d -c /path/to/project
 
   # Print version
-  opencode -v
+  refactorkit -v
 
   # Run a single non-interactive prompt
-  opencode -p "Explain the use of context in Go"
+  refactorkit -p "Explain the use of context in Go"
 
   # Run a single non-interactive prompt with JSON output format
-  opencode -p "Explain the use of context in Go" -f json
+  refactorkit -p "Explain the use of context in Go" -f json
   `,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		// If the help flag is set, show the help message

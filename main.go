@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/opencode-ai/opencode/cmd"
-	"github.com/opencode-ai/opencode/internal/logging"
+	"github.com/prokizzle/refactorkit/cmd"
+	"github.com/prokizzle/refactorkit/internal/logging"
 )
 
 func main() {

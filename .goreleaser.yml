@@ -1,5 +1,5 @@
 version: 2
-project_name: opencode
+project_name: refactorkit
 before:
   hooks:
 builds:
@@ -12,13 +12,13 @@ builds:
       - amd64
       - arm64
     ldflags:
-      - -s -w -X github.com/opencode-ai/opencode/internal/version.Version={{.Version}}
+      - -s -w -X github.com/prokizzle/refactorkit/internal/version.Version={{.Version}}
     main: ./main.go
 
 archives:
   - format: tar.gz
     name_template: >-
-      opencode-
+      refactorkit-
       {{- if eq .Os "darwin" }}mac-
       {{- else if eq .Os "windows" }}windows-
       {{- else if eq .Os "linux" }}linux-{{end}}
@@ -34,23 +34,23 @@ checksum:
 snapshot:
   name_template: "0.0.0-{{ .Timestamp }}"
 aurs:
-  - name: opencode-ai
-    homepage: "https://github.com/opencode-ai/opencode"
-    description: "terminal based agent that can build anything"
+  - name: refactorkit
+    homepage: "https://github.com/prokizzle/refactorkit"
+    description: "terminal based AI assistant for software refactoring and development"
     maintainers:
-      - "kujtimiihoxha <kujtimii.h@gmail.com>"
+      - "prokizzle"
     license: "MIT"
     private_key: "{{ .Env.AUR_KEY }}"
-    git_url: "ssh://aur@aur.archlinux.org/opencode-ai-bin.git"
+    git_url: "ssh://aur@aur.archlinux.org/refactorkit-bin.git"
     provides:
-      - opencode
+      - refactorkit
     conflicts:
-      - opencode
+      - refactorkit
     package: |-
-      install -Dm755 ./opencode "${pkgdir}/usr/bin/opencode"
+      install -Dm755 ./refactorkit "${pkgdir}/usr/bin/refactorkit"
 brews:
   - repository:
-      owner: opencode-ai
+      owner: prokizzle
       name: homebrew-tap
 nfpms:
   - maintainer: kujtimiihoxha

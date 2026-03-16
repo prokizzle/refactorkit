@@ -5,11 +5,11 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/opencode-ai/opencode/internal/config"
-	"github.com/opencode-ai/opencode/internal/llm/tools"
-	"github.com/opencode-ai/opencode/internal/logging"
-	"github.com/opencode-ai/opencode/internal/permission"
-	"github.com/opencode-ai/opencode/internal/version"
+	"github.com/prokizzle/refactorkit/internal/config"
+	"github.com/prokizzle/refactorkit/internal/llm/tools"
+	"github.com/prokizzle/refactorkit/internal/logging"
+	"github.com/prokizzle/refactorkit/internal/permission"
+	"github.com/prokizzle/refactorkit/internal/version"
 
 	"github.com/mark3labs/mcp-go/client"
 	"github.com/mark3labs/mcp-go/mcp"

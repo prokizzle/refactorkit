@@ -8,16 +8,16 @@ import (
 	"sync"
 	"time"
 
-	"github.com/opencode-ai/opencode/internal/config"
-	"github.com/opencode-ai/opencode/internal/llm/models"
-	"github.com/opencode-ai/opencode/internal/llm/prompt"
-	"github.com/opencode-ai/opencode/internal/llm/provider"
-	"github.com/opencode-ai/opencode/internal/llm/tools"
-	"github.com/opencode-ai/opencode/internal/logging"
-	"github.com/opencode-ai/opencode/internal/message"
-	"github.com/opencode-ai/opencode/internal/permission"
-	"github.com/opencode-ai/opencode/internal/pubsub"
-	"github.com/opencode-ai/opencode/internal/session"
+	"github.com/prokizzle/refactorkit/internal/config"
+	"github.com/prokizzle/refactorkit/internal/llm/models"
+	"github.com/prokizzle/refactorkit/internal/llm/prompt"
+	"github.com/prokizzle/refactorkit/internal/llm/provider"
+	"github.com/prokizzle/refactorkit/internal/llm/tools"
+	"github.com/prokizzle/refactorkit/internal/logging"
+	"github.com/prokizzle/refactorkit/internal/message"
+	"github.com/prokizzle/refactorkit/internal/permission"
+	"github.com/prokizzle/refactorkit/internal/pubsub"
+	"github.com/prokizzle/refactorkit/internal/session"
 )
 
 // Common errors

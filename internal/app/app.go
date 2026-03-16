@@ -9,17 +9,17 @@ import (
 	"sync"
 	"time"
 
-	"github.com/opencode-ai/opencode/internal/config"
-	"github.com/opencode-ai/opencode/internal/db"
-	"github.com/opencode-ai/opencode/internal/format"
-	"github.com/opencode-ai/opencode/internal/history"
-	"github.com/opencode-ai/opencode/internal/llm/agent"
-	"github.com/opencode-ai/opencode/internal/logging"
-	"github.com/opencode-ai/opencode/internal/lsp"
-	"github.com/opencode-ai/opencode/internal/message"
-	"github.com/opencode-ai/opencode/internal/permission"
-	"github.com/opencode-ai/opencode/internal/session"
-	"github.com/opencode-ai/opencode/internal/tui/theme"
+	"github.com/prokizzle/refactorkit/internal/config"
+	"github.com/prokizzle/refactorkit/internal/db"
+	"github.com/prokizzle/refactorkit/internal/format"
+	"github.com/prokizzle/refactorkit/internal/history"
+	"github.com/prokizzle/refactorkit/internal/llm/agent"
+	"github.com/prokizzle/refactorkit/internal/logging"
+	"github.com/prokizzle/refactorkit/internal/lsp"
+	"github.com/prokizzle/refactorkit/internal/message"
+	"github.com/prokizzle/refactorkit/internal/permission"
+	"github.com/prokizzle/refactorkit/internal/session"
+	"github.com/prokizzle/refactorkit/internal/tui/theme"
 )
 
 type App struct {

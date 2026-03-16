@@ -4,15 +4,15 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
-// OpenCodeTheme implements the Theme interface with OpenCode brand colors.
+// RefactorKitTheme implements the Theme interface with RefactorKit brand colors.
 // It provides both dark and light variants.
-type OpenCodeTheme struct {
+type RefactorKitTheme struct {
 	BaseTheme
 }
 
-// NewOpenCodeTheme creates a new instance of the OpenCode theme.
-func NewOpenCodeTheme() *OpenCodeTheme {
-	// OpenCode color palette
+// NewRefactorKitTheme creates a new instance of the RefactorKit theme.
+func NewRefactorKitTheme() *RefactorKitTheme {
+	// RefactorKit color palette
 	// Dark mode colors
 	darkBackground := "#212121"
 	darkCurrentLine := "#252525"
@@ -45,7 +45,7 @@ func NewOpenCodeTheme() *OpenCodeTheme {
 	lightYellow := "#b0851f"    // Emphasized text
 	lightBorder := "#d3d3d3"    // Border color
 
-	theme := &OpenCodeTheme{}
+	theme := &RefactorKitTheme{}
 
 	// Base colors
 	theme.PrimaryColor = lipgloss.AdaptiveColor{
@@ -271,7 +271,9 @@ func NewOpenCodeTheme() *OpenCodeTheme {
 }
 
 func init() {
-	// Register the OpenCode theme with the theme manager
-	RegisterTheme("opencode", NewOpenCodeTheme())
+	// Register the RefactorKit theme with the theme manager
+	RegisterTheme("refactorkit", NewRefactorKitTheme())
+	// Keep legacy name for backward compatibility
+	RegisterTheme("opencode", NewRefactorKitTheme())
 }
 

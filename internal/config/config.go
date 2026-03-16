@@ -10,8 +10,8 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/opencode-ai/opencode/internal/llm/models"
-	"github.com/opencode-ai/opencode/internal/logging"
+	"github.com/prokizzle/refactorkit/internal/llm/models"
+	"github.com/prokizzle/refactorkit/internal/logging"
 	"github.com/spf13/viper"
 )
 
@@ -98,9 +98,10 @@ type Config struct {
 
 // Application constants
 const (
-	defaultDataDirectory = ".opencode"
+	defaultDataDirectory = ".refactorkit"
 	defaultLogLevel      = "info"
-	appName              = "opencode"
+	appName              = "refactorkit"
+	legacyAppName        = "opencode"
 
 	MaxTokensFallbackDefault = 4096
 )
@@ -111,6 +112,13 @@ var defaultContextPaths = []string{
 	".cursor/rules/",
 	"CLAUDE.md",
 	"CLAUDE.local.md",
+	"refactorkit.md",
+	"refactorkit.local.md",
+	"RefactorKit.md",
+	"RefactorKit.local.md",
+	"REFACTORKIT.md",
+	"REFACTORKIT.local.md",
+	// Legacy OpenCode context paths for backward compatibility
 	"opencode.md",
 	"opencode.local.md",
 	"OpenCode.md",
@@ -160,7 +168,7 @@ func Load(workingDir string, debug bool) (*Config, error) {
 	if cfg.Debug {
 		defaultLevel = slog.LevelDebug
 	}
-	if os.Getenv("OPENCODE_DEV_DEBUG") == "true" {
+	if os.Getenv("REFACTORKIT_DEV_DEBUG") == "true" || os.Getenv("OPENCODE_DEV_DEBUG") == "true" {
 		loggingFile := fmt.Sprintf("%s/%s", cfg.Data.Directory, "debug.log")
 		messagesPath := fmt.Sprintf("%s/%s", cfg.Data.Directory, "messages")
 
@@ -222,6 +230,9 @@ func configureViper() {
 	viper.AddConfigPath("$HOME")
 	viper.AddConfigPath(fmt.Sprintf("$XDG_CONFIG_HOME/%s", appName))
 	viper.AddConfigPath(fmt.Sprintf("$HOME/.config/%s", appName))
+	// Legacy OpenCode config paths for backward compatibility
+	viper.AddConfigPath(fmt.Sprintf("$XDG_CONFIG_HOME/%s", legacyAppName))
+	viper.AddConfigPath(fmt.Sprintf("$HOME/.config/%s", legacyAppName))
 	viper.SetEnvPrefix(strings.ToUpper(appName))
 	viper.AutomaticEnv()
 }
@@ -230,7 +241,7 @@ func configureViper() {
 func setDefaults(debug bool) {
 	viper.SetDefault("data.directory", defaultDataDirectory)
 	viper.SetDefault("contextPaths", defaultContextPaths)
-	viper.SetDefault("tui.theme", "opencode")
+	viper.SetDefault("tui.theme", "refactorkit")
 	viper.SetDefault("autoCompact", true)
 
 	// Set default shell from environment or fallback to /bin/bash
@@ -457,11 +468,37 @@ func mergeLocalConfig(workingDir string) {
 	// Merge local config if it exists
 	if err := local.ReadInConfig(); err == nil {
 		viper.MergeConfigMap(local.AllSettings())
+	} else {
+		// Fallback: try legacy .opencode.json for backward compatibility
+		legacy := viper.New()
+		legacy.SetConfigName(fmt.Sprintf(".%s", legacyAppName))
+		legacy.SetConfigType("json")
+		legacy.AddConfigPath(workingDir)
+		if err := legacy.ReadInConfig(); err == nil {
+			viper.MergeConfigMap(legacy.AllSettings())
+		}
 	}
+}
+
+// defaultMCPServers defines the MCP servers that are included by default if not already configured.
+var defaultMCPServers = map[string]MCPServer{
+	"sequential-thinking": {Command: "npx", Args: []string{"-y", "@modelcontextprotocol/server-sequential-thinking"}, Type: MCPStdio},
+	"context7":            {Command: "npx", Args: []string{"-y", "@upstash/context7-mcp"}, Type: MCPStdio},
+	"better-icons":        {Command: "npx", Args: []string{"-y", "better-icons"}, Type: MCPStdio},
 }
 
 // applyDefaultValues sets default values for configuration fields that need processing.
 func applyDefaultValues() {
+	// Add default MCP servers if not already configured
+	if cfg.MCPServers == nil {
+		cfg.MCPServers = make(map[string]MCPServer)
+	}
+	for name, server := range defaultMCPServers {
+		if _, exists := cfg.MCPServers[name]; !exists {
+			cfg.MCPServers[name] = server
+		}
+	}
+
 	// Set default MCP type if not specified
 	for k, v := range cfg.MCPServers {
 		if v.Type == "" {

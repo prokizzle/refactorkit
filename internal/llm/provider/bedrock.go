@@ -7,8 +7,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/opencode-ai/opencode/internal/llm/tools"
-	"github.com/opencode-ai/opencode/internal/message"
+	"github.com/prokizzle/refactorkit/internal/llm/tools"
+	"github.com/prokizzle/refactorkit/internal/message"
 )
 
 type bedrockOptions struct {
